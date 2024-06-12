@@ -1,24 +1,40 @@
+using Niantic.Lightship.AR.LocationAR;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class ARPlacements : MonoBehaviour
 {
     // Start is called before the first frame update
+    private ARLocationManager arLocationManager;
     private ARRaycastManager arRaycastManager;
-    [SerializeField] private GameObject instantiatedObject;
+    [SerializeField]private Button button1; // fire
+    [SerializeField]private Button button2; // water
+    [SerializeField] private List<GameObject> instantiatedObject;
     private List<GameObject> instantiatedObjects = new();
     private Camera mainCam;
+    private GameObject target;
 
-
+    public static  Action selectOb;
 
     private void Start()
     {
         mainCam = FindObjectOfType<Camera>();
         arRaycastManager = FindObjectOfType<ARRaycastManager>();
+        arLocationManager = FindObjectOfType<ARLocationManager>();
+        if(button1 != null)
+        {
+            button1.onClick.AddListener(setObject1);
+        }
+        if(button2 != null)
+        {
+            button2.onClick.AddListener(setObject2);
+        }
     }
 
     // Update is called once per frame
@@ -67,13 +83,23 @@ public class ARPlacements : MonoBehaviour
         }
 #endif
     }
+    void setObject1()
+    {
+        target = instantiatedObject[0];
+        Debug.Log("Fire object selected");
+    }
 
+    void setObject2()
+    {
+        target = instantiatedObject[1];
+        Debug.Log("Water object selected");
+    }
     void TouchToRay(Vector3 touch)
     {
         Ray ray = mainCam.ScreenPointToRay(touch);
         List<ARRaycastHit> hits = new();
-       
-        arRaycastManager.raycastPrefab = instantiatedObject;
+
+        arRaycastManager.raycastPrefab = target;
         arRaycastManager.Raycast(ray, hits, TrackableType.PlaneEstimated);
 
         Debug.Log("ShootingRay");
@@ -82,9 +108,9 @@ public class ARPlacements : MonoBehaviour
         {
             Vector3 hitPosition = hits[0].pose.position;
 
-            if(!IsPositionOccupied(hitPosition))
+            if (!IsPositionOccupied(hitPosition))
             {
-                GameObject placeObject = Instantiate(instantiatedObject);
+                GameObject placeObject = Instantiate(target);
                 placeObject.transform.position = hits[0].pose.position;
                 placeObject.transform.rotation = hits[0].pose.rotation;
                 instantiatedObjects.Add(placeObject);
@@ -100,7 +126,7 @@ public class ARPlacements : MonoBehaviour
         Collider[] colliders = Physics.OverlapSphere(position, 0.5f);
         foreach (var collider in colliders)
         {
-            if(instantiatedObjects.Contains(collider.gameObject))
+            if (instantiatedObjects.Contains(collider.gameObject))
             {
                 return true;
             }
