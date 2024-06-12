@@ -26,24 +26,7 @@ save 시에 해당 object가 저장되고 다시 program을 켰을 때 load되�
 ## 3. Scripts 설명
 
 ## ARPlacements
-object를 버튼을 눌러 선택하고 해당 object를 감지된 plane에 올려놓는다. 현재 올릴 수 있는 object는 2개고 button을 추가하여 더 늘려줄 수 있다.
-```cs
-    private ARRaycastManager arRaycastManager;
-    [SerializeField]private Button button1; // fire
-    [SerializeField]private Button button2; // water
-    [SerializeField] private List<GameObject> instantiatedObject;  // plane위에 올릴 object들을 저장할 list button을 통해 해당 list에서 가져와서 등록하게 된다.
-    private List<GameObject> instantiatedObjects = new(); // 이름을 잘못 지었음.. 나중에 수정 예정
-    private Camera mainCam;
-    private GameObject target;
-```
-`camera`는 touch를 처리하기 위해 가져오는 component이다. 
-`target`은 list에서 선택된 것을 넣을 변수이다.
-`instantiatedObjects`는 생성된 object들을 모두 저장하는 list이다. 관리를 위해 넣어둠..
-`arRaycastManager`는 touch 처리를 위해 가져오는 compoenet이다. 
-
-`button`은 onclick.Addlistener로 함수를 실행시킬 수 있다.
-`setObject1`은 첫번째 object를 설정하는 함수이다.
-
+object를 버튼을 눌러 선택하고 해당 object를 감지된 plane에 올려놓는다. 현재 올릴 수 있는 object는 1개고 button을 추가하여 더 늘려줄 수 있다.
 이 script의 작동 방식은 마우스가 눌리면 UI인지 아닌지 판단을하고 UI가 눌렸다면 아무것도 하지 않고 아니라면 `Ray`를 쏜다. 
 해당 위치에서 날아간 `Ray`와 감지된 `plane`과 만난 지점을 `hits`에 저장하고 그 지점에 object를 `instantiate`하여 생성해준다. 만약 object의 위치가 서로 겹친다면 생성하지 않는다.
 
