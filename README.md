@@ -22,7 +22,8 @@ playback 기능을 이용하기 위해서 [lightship play back sample](https://n
 
 ## 2. program 시나리오
 구현된 program은 scan된 위치에 도착하게 되면 object를 놓을 수 있게 된다. object는 2가지 효과에 대한 object이고 터치 시에 사용할 수 있게 된다.
-save 시에 해당 object가 저장되고 다시 program을 켰을 때 load되어서 똑같이 보여야 한다. (그런데 모바일에서 test를 해야하는데 load가 되지 않고 있음.. 디버깅이 필요)
+save 시에 해당 object가 저장되고 다시 program을 켰을 때 load되어서 똑같이 보여야 한다. ~~(그런데 모바일에서 test를 해야하는데 load가 되지 않고 있음.. 디버깅이 필요)~~
+**모바일 환경에서 3d mesh 순서가 계속 바뀌므로 detect된 것만 가져오도록 바꿔줘야함 그래서 만약 1개의 mesh만 있다면 load, save가 제대로 잘 되는 것을 확인할 수 있음**
 ## 3. Scripts 설명
 
 ## ARPlacements
